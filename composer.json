@@ -1,0 +1,40 @@
+{
+    "name": "lurza/laravel-route-finder",
+    "description": "Laravel command that helps you find routes",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brecht Vermeersch",
+            "email": "brechtvermeersch@outlook.be"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lurza\\Skeleton\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lurza\\Skeleton\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.4|8.*",
+        "pestphp/pest": "^1.21",
+        "spatie/laravel-package-tools": "^1.9"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.23",
+        "nunomaduro/larastan": "^1.0",
+        "pestphp/pest-plugin-laravel": "^1.1"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+              "SkeletonServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

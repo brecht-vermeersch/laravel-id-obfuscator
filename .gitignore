@@ -1,0 +1,11 @@
+docs
+.idea
+build
+vendor
+.php_cs
+coverage
+node_modules
+.php_cs.cache
+composer.lock
+.php-cs-fixer.cache
+.phpunit.result.cache
