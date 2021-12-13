@@ -10,18 +10,17 @@ use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 
 /**
  * @mixin Model
+ * @property ?string $idObfuscator
+ * @property ?bool $classBasedIdObfuscation
  */
 trait HasObfuscatedId
 {
-    protected ?string $idObfuscator = null;
-    protected bool $classBasedIdObfuscation = false;
-
     /**
      * @throws InvalidIdException
      */
     public function encodeObfuscatedId(int $id): string
     {
-        return $this->getIdObfuscator()->encode($id);
+        return $this->getIdObfuscator()->encode($id, $this->getClassBasedIdObfuscation());
     }
 
     /**
@@ -29,13 +28,18 @@ trait HasObfuscatedId
      */
     public function decodeObfuscatedId(string $obfuscatedId): int
     {
-        return $this->getIdObfuscator()->decode($obfuscatedId);
+        return $this->getIdObfuscator()->decode($obfuscatedId, $this->getClassBasedIdObfuscation());
     }
 
     public function getIdObfuscator(): IdObfuscatorContract
     {
         /** @phpstan-ignore-next-line */
         return IdObfuscator::driver($this->idObfuscator);
+    }
+
+    private function getClassBasedIdObfuscation(): ?string
+    {
+        return $this->classBasedIdObfuscation ? self::class : null;
     }
 
     /**
