@@ -22,12 +22,12 @@ class HashidsIdObfuscator extends BaseIdObfucator
             throw new InvalidIdException("Ids can only be positive integers!");
         }
 
-        return $this->getClassOrDefaultObfuscator($salt)->encode($id);
+        return $this->getSaltedOrDefaultObfuscator($salt)->encode($id);
     }
 
     public function decode(string $obfuscatedId, string $salt = null): int
     {
-        $ids = $this->getClassOrDefaultObfuscator($salt)->decode($obfuscatedId);
+        $ids = $this->getSaltedOrDefaultObfuscator($salt)->decode($obfuscatedId);
 
         if (count($ids) < 1 || $ids[0] === "") {
             throw new InvalidObfuscatedIdException();
@@ -45,18 +45,18 @@ class HashidsIdObfuscator extends BaseIdObfucator
         );
     }
 
-    protected function createClassSpecificObfuscator(string $class): Hashids
+    protected function createSaltedObfuscator(string $salt): Hashids
     {
         return new Hashids(
-            $this->getClassSpecificSalt($class),
+            $this->combineWithConfigSalt($salt),
             $this->config->minimumHashLength,
             $this->config->alphabet
         );
     }
 
-    private function getClassSpecificSalt(string $class): string
+    private function combineWithConfigSalt(string $salt): string
     {
-        return hash('sha256', $this->config->salt . $class);
+        return hash('sha256', $this->config->salt . $salt);
     }
 
 }

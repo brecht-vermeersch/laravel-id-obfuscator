@@ -12,7 +12,7 @@ abstract class BaseIdObfucator implements ObfuscatorContract
     /** @var ?T $cachedDefault */
     private mixed $cachedDefault = null;
     /** @var array<class-string, T> */
-    private array $cachedSalt = [];
+    private array $cachedSalted = [];
 
     /**
      * @return T
@@ -25,25 +25,25 @@ abstract class BaseIdObfucator implements ObfuscatorContract
     }
 
     /**
-     * @param class-string $class
+     * @param class-string $salt
      * @return T
      */
-    protected function getClassObfuscator(string $class): mixed
+    protected function getSaltedObfuscator(string $salt): mixed
     {
-        return array_key_exists($class, $this->cachedSalt)
-            ? $this->cachedSalt[$class]
-            : $this->cachedSalt[$class] = $this->createClassSpecificObfuscator($class);
+        return array_key_exists($salt, $this->cachedSalted)
+            ? $this->cachedSalted[$salt]
+            : $this->cachedSalted[$salt] = $this->createSaltedObfuscator($salt);
     }
 
     /**
-     * @param class-string|null $class
+     * @param class-string|null $salt
      * @return T
      */
-    protected function getClassOrDefaultObfuscator(?string $class): mixed
+    protected function getSaltedOrDefaultObfuscator(?string $salt): mixed
     {
-        return $class === null
+        return $salt === null
             ? $this->getDefaultObfuscator()
-            : $this->getClassObfuscator($class);
+            : $this->getSaltedObfuscator($salt);
     }
 
     /**
@@ -52,8 +52,8 @@ abstract class BaseIdObfucator implements ObfuscatorContract
     abstract protected function createDefaultObfuscator(): mixed;
 
     /**
-     * @param class-string $class
+     * @param class-string $salt
      * @return T
      */
-    abstract protected function createClassSpecificObfuscator(string $class): mixed;
+    abstract protected function createSaltedObfuscator(string $salt): mixed;
 }
