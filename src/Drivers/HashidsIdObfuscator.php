@@ -10,24 +10,24 @@ use Lurza\IdObfuscator\Exceptions\InvalidObfuscatedIdException;
 /**
  * @extends BaseIdObfucator<Hashids>
  */
-class HashidIdObfuscator extends BaseIdObfucator
+class HashidsIdObfuscator extends BaseIdObfucator
 {
     public function __construct(
         private HashidsConfig $config
     ) {}
 
-    public function encode(int $id, string $class = null): string
+    public function encode(int $id, string $salt = null): string
     {
         if ($id < 0) {
             throw new InvalidIdException("Ids can only be positive integers!");
         }
 
-        return $this->getClassOrDefaultObfuscator($class)->encode($id);
+        return $this->getClassOrDefaultObfuscator($salt)->encode($id);
     }
 
-    public function decode(string $obfuscatedId, string $class = null): int
+    public function decode(string $obfuscatedId, string $salt = null): int
     {
-        $ids = $this->getClassOrDefaultObfuscator($class)->decode($obfuscatedId);
+        $ids = $this->getClassOrDefaultObfuscator($salt)->decode($obfuscatedId);
 
         if (count($ids) < 1 || $ids[0] === "") {
             throw new InvalidObfuscatedIdException();

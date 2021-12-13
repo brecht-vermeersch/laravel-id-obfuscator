@@ -5,20 +5,18 @@ use Lurza\IdObfuscator\Traits\HasObfuscatedId;
 
 it("resolves from route", function() {
     $dummy = Dummy::create();
-    $saltDummy = SaltDummy::find($dummy->id);
 
-    expect($dummy->id)->toBe($saltDummy->id);
+    expect($dummy->id)->toBe(
+        (new Dummy)->resolveRouteBinding($dummy->getRouteKey())->id
+    );
+});
 
-    $dummyRouteKey = $dummy->getRouteKey();
-    $saltDummyRouteKey = $saltDummy->getRouteKey();
+it("resolves from route with salt", function() {
+    $dummy = SaltDummy::create();
 
-    expect($dummyRouteKey)->not->toBe($saltDummyRouteKey);
-
-    $resolvedDummy = (new Dummy)->resolveRouteBinding($dummyRouteKey);
-    $resolvedSaltDummy = (new SaltDummy)->resolveRouteBinding($saltDummyRouteKey);
-
-    expect($dummy->id)->toBe($resolvedDummy->id);
-    expect($dummy->id)->toBe($resolvedSaltDummy->id);
+    expect($dummy->id)->toBe(
+        (new SaltDummy)->resolveRouteBinding($dummy->getRouteKey())->id
+    );
 });
 
 class Dummy extends Model
