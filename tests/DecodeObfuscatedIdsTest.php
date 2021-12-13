@@ -52,7 +52,7 @@ class TestController extends Controller
         return $request->input();
     }
 
-    #[ObfuscatedIds(["a", "b.*", "e" => 'salty', "f.*" => 'salty'])]
+    #[ObfuscatedIds(["a", "b.*", "e" => 'salty', "f.*" => 'salty', 'noop'])]
     public function testWithAttribute(Request $request)
     {
         return $request->input();
