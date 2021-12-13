@@ -1,7 +1,7 @@
 <?php
 
-use Lurza\IdObfuscator\IdObfuscatorManager;
 use Lurza\IdObfuscator\Facades\IdObfuscator;
+use Lurza\IdObfuscator\IdObfuscatorManager;
 
 it('resolves from the container', function () {
     $manager = app(IdObfuscatorManager::class);

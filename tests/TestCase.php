@@ -31,9 +31,9 @@ class TestCase extends OrchestraTestCase
                     'salt' => 'salt',
                 ],
                 'optimus' => [
-                    'prime' => env('OPTIMUS_PRIME'),
+                    'prime'   => env('OPTIMUS_PRIME'),
                     'inverse' => env('OPTIMUS_INVERSE'),
-                    'random' => env('OPTIMUS_RANDOM')
+                    'random'  => env('OPTIMUS_RANDOM'),
                 ],
                 'null' => [],
             ],

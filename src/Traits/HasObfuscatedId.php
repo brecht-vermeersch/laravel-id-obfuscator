@@ -1,15 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Lurza\IdObfuscator\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Lurza\IdObfuscator\Facades\IdObfuscator;
+use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 use Lurza\IdObfuscator\Exceptions\InvalidIdException;
 use Lurza\IdObfuscator\Exceptions\InvalidObfuscatedIdException;
-use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
+use Lurza\IdObfuscator\Facades\IdObfuscator;
 
 /**
  * @mixin Model
+ *
  * @property ?string $idObfuscator
  * @property ?string $idObfuscatorSalt
  */
@@ -49,8 +52,8 @@ trait HasObfuscatedId
     {
         $key = $this->getKey();
 
-        if(!$this->isDigits($key)) {
-            throw new InvalidIdException("Id should only contain digits!");
+        if (!$this->isDigits($key)) {
+            throw new InvalidIdException('Id should only contain digits!');
         }
 
         /** @var string|int $key */

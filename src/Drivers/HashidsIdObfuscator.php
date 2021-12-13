@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Lurza\IdObfuscator\Drivers;
 
@@ -14,12 +16,13 @@ class HashidsIdObfuscator extends BaseIdObfucator
 {
     public function __construct(
         private HashidsConfig $config
-    ) {}
+    ) {
+    }
 
     public function encode(int $id, string $salt = null): string
     {
         if ($id < 0) {
-            throw new InvalidIdException("Ids can only be positive integers!");
+            throw new InvalidIdException('Ids can only be positive integers!');
         }
 
         return $this->getSaltedOrDefaultObfuscator($salt)->encode($id);
@@ -29,7 +32,7 @@ class HashidsIdObfuscator extends BaseIdObfucator
     {
         $ids = $this->getSaltedOrDefaultObfuscator($salt)->decode($obfuscatedId);
 
-        if (count($ids) < 1 || $ids[0] === "") {
+        if (count($ids) < 1 || $ids[0] === '') {
             throw new InvalidObfuscatedIdException();
         }
 
@@ -56,7 +59,6 @@ class HashidsIdObfuscator extends BaseIdObfucator
 
     private function combineWithConfigSalt(string $salt): string
     {
-        return hash('sha256', $this->config->salt . $salt);
+        return hash('sha256', $this->config->salt.$salt);
     }
-
 }

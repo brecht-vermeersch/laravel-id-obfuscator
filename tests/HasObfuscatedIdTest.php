@@ -3,19 +3,19 @@
 use Illuminate\Database\Eloquent\Model;
 use Lurza\IdObfuscator\Traits\HasObfuscatedId;
 
-it("resolves from route", function() {
+it('resolves from route', function () {
     $dummy = Dummy::create();
 
     expect($dummy->id)->toBe(
-        (new Dummy)->resolveRouteBinding($dummy->getRouteKey())->id
+        (new Dummy())->resolveRouteBinding($dummy->getRouteKey())->id
     );
 });
 
-it("resolves from route with salt", function() {
+it('resolves from route with salt', function () {
     $dummy = SaltDummy::create();
 
     expect($dummy->id)->toBe(
-        (new SaltDummy)->resolveRouteBinding($dummy->getRouteKey())->id
+        (new SaltDummy())->resolveRouteBinding($dummy->getRouteKey())->id
     );
 });
 
@@ -30,7 +30,7 @@ class SaltDummy extends Model
 {
     use HasObfuscatedId;
 
-    protected $table = "dummies";
+    protected $table = 'dummies';
 
     public $idObfuscator = 'hashids';
     public $idObfuscatorSalt = 'salty';
