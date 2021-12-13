@@ -14,23 +14,39 @@ class HashidsConfig
     public int $minimumHashLength;
 
     /**
-     * @param array<string, mixed> $connectionConfig
      * @throws InvalidConfigurationException
      */
-    public function __construct(array $connectionConfig)
+    public function __construct()
     {
-        $this->setSalt($connectionConfig);
-        $this->setAlphabet($connectionConfig);
-        $this->setMinimumHashLength($connectionConfig);
+        $config = $this->getConfig();
+
+        $this->setSalt($config);
+        $this->setAlphabet($config);
+        $this->setMinimumHashLength($config);
     }
 
     /**
-     * @param array<string, mixed> $connectionConfig
+     * @return array<string, mixed>
      * @throws InvalidConfigurationException
      */
-    private function setSalt(array $connectionConfig): void
+    private function getConfig(): array
     {
-        $salt = $connectionConfig["salt"] ?? null;
+        $config = config('idObfuscator.drivers.hashids');
+
+        if(!is_array($config)) {
+            throw new InvalidConfigurationException();
+        }
+
+        return $config;
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     * @throws InvalidConfigurationException
+     */
+    private function setSalt(array $config): void
+    {
+        $salt = $config["salt"] ?? null;
 
         if (!is_string($salt)) {
             throw new InvalidConfigurationException("Config option salt is required and must be a string!");
@@ -40,12 +56,12 @@ class HashidsConfig
     }
 
     /**
-     * @param array<string, mixed> $connectionConfig
+     * @param array<string, mixed> $config
      * @throws InvalidConfigurationException
      */
-    private function setAlphabet(array $connectionConfig): void
+    private function setAlphabet(array $config): void
     {
-        $alphabet = $connectionConfig["alphabet"] ?? self::DEFAULT_ALPHABET;
+        $alphabet = $config["alphabet"] ?? self::DEFAULT_ALPHABET;
 
         if (!is_string($alphabet)) {
             throw new InvalidConfigurationException("Config option alphabet must be a string or null!");
@@ -55,12 +71,12 @@ class HashidsConfig
     }
 
     /**
-     * @param array<string, mixed> $connectionConfig
+     * @param array<string, mixed> $config
      * @throws InvalidConfigurationException
      */
-    private function setMinimumHashLength(array $connectionConfig): void
+    private function setMinimumHashLength(array $config): void
     {
-        $minimumHashLength = $connectionConfig["minimumHashLength"] ?? self::DEFAULT_MINIMUM_HASH_LENGTH;
+        $minimumHashLength = $config["minimumHashLength"] ?? self::DEFAULT_MINIMUM_HASH_LENGTH;
 
         if (!is_int($minimumHashLength)) {
             throw new InvalidConfigurationException("Config option minimumHashLength must be an int or null!");

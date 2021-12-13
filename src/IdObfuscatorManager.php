@@ -6,7 +6,6 @@ use Illuminate\Support\Manager;
 use Lurza\IdObfuscator\Configs\HashidsConfig;
 use Lurza\IdObfuscator\Drivers\HashidIdObfuscator;
 use Lurza\IdObfuscator\Drivers\NullIdObfuscator;
-use Lurza\IdObfuscator\Exceptions\InvalidConfigurationException;
 use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 
 /**
@@ -20,13 +19,11 @@ class IdObfuscatorManager extends Manager implements IdObfuscatorContract
     }
 
     /**
-     * @param array<string, mixed> $connectionConfig
      * @return IdObfuscatorContract
-     * @throws InvalidConfigurationException
      */
-    public function createHashidsDriver(array $connectionConfig): IdObfuscatorContract
+    public function createHashidsDriver(): IdObfuscatorContract
     {
-        return new HashidIdObfuscator(new HashidsConfig($connectionConfig));
+        return new HashidIdObfuscator(new HashidsConfig);
     }
 
     public function createNullDriver(): IdObfuscatorContract
