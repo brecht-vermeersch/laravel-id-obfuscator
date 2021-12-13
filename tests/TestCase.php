@@ -1,8 +1,8 @@
 <?php
 
-namespace Lurza\Skeleton\Tests;
+namespace Lurza\IdObfuscator\Tests;
 
-use Lurza\Skeleton\SkeletonServiceProvider;
+use Lurza\IdObfuscator\IdObfuscatorServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 class TestCase extends OrchestraTestCase
@@ -10,7 +10,7 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            SkeletonServiceProvider::class,
+            IdObfuscatorServiceProvider::class,
         ];
     }
 }

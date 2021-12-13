@@ -1,5 +1,5 @@
 <?php
 
-use Lurza\Skeleton\Tests\TestCase;
+use Lurza\IdObfuscator\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
