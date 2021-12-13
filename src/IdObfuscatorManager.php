@@ -10,8 +10,6 @@ use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 
 /**
  * @method IdObfuscatorContract driver(?string $driver = null)
- * @method string encode(int $id, string $class = null)
- * @method int decode(string $obfuscatedId, string $class = null):
  */
 class IdObfuscatorManager extends Manager
 {
