@@ -3,8 +3,6 @@
 namespace Lurza\IdObfuscator\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Lurza\IdObfuscator\Exceptions\InvalidDriverException;
-use Lurza\IdObfuscator\Exceptions\InvalidKeyException;
 use Lurza\IdObfuscator\Facades\IdObfuscator;
 use Lurza\IdObfuscator\Exceptions\InvalidIdException;
 use Lurza\IdObfuscator\Exceptions\InvalidObfuscatedIdException;
@@ -16,21 +14,43 @@ use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 trait HasObfuscatedId
 {
     protected ?string $idObfuscator = null;
-    protected bool $classSpecificIdObfuscator = false;
+    protected bool $classBasedIdObfuscation = false;
 
     /**
-     * @throws InvalidDriverException|InvalidKeyException|InvalidIdException
+     * @throws InvalidIdException
+     */
+    public function encodeObfuscatedId(int $id): string
+    {
+        return $this->getIdObfuscator()->encode($id);
+    }
+
+    /**
+     * @throws InvalidObfuscatedIdException
+     */
+    public function decodeObfuscatedId(string $obfuscatedId): int
+    {
+        return $this->getIdObfuscator()->decode($obfuscatedId);
+    }
+
+    public function getIdObfuscator(): IdObfuscatorContract
+    {
+        /** @phpstan-ignore-next-line */
+        return IdObfuscator::driver($this->idObfuscator);
+    }
+
+    /**
+     * @throws InvalidIdException
      */
     public function getRouteKey(): string
     {
         $key = $this->getKey();
 
-        if (!$this->isDigits($key)) {
-            throw new InvalidKeyException("Key must only contain digits!");
+        if(!$this->isDigits($key)) {
+            throw new InvalidIdException("Id should only contain digits!");
         }
 
         /** @var string|int $key */
-        return $this->encodeId((int)$key);
+        return $this->encodeObfuscatedId((int) $key);
     }
 
     private function isDigits(mixed $var): bool
@@ -38,58 +58,17 @@ trait HasObfuscatedId
         return is_int($var) || (is_string($var) && ctype_digit($var));
     }
 
-    /**
-     * @throws InvalidIdException|InvalidDriverException
-     */
-    private function encodeId(int $id): string
-    {
-        if ($this->classSpecificIdObfuscator) {
-            return $this->getIdObfuscator()->encodeClassSpecific($id, static::class);
-        }
-
-        return $this->getIdObfuscator()->encode($id);
-    }
-
-    /**
-     * @throws InvalidDriverException
-     */
-    private function getIdObfuscator(): IdObfuscatorContract
-    {
-        $driver = IdObfuscator::driver($this->idObfuscator);
-
-        if (!$driver instanceof IdObfuscatorContract) {
-            throw new InvalidDriverException("Driver " . $this->idObfuscator . "not found!");
-        }
-
-        return $driver;
-    }
-
-    /**
-     * @throws InvalidDriverException
-     */
-    public function resolveRouteBinding(string $value, ?string $field = null): ?Model
+    public function resolveRouteBinding($value, $field = null): ?Model
     {
         try {
-            $decoded = $this->decodeId($value);
+            $decodedValue = $this->decodeObfuscatedId($value);
         } catch (InvalidObfuscatedIdException) {
             return null;
         }
 
         return $this
             ->newQuery()
-            ->where($field ?? $this->getRouteKeyName(), $decoded)
+            ->where($field ?? $this->getRouteKeyName(), $decodedValue)
             ->first();
-    }
-
-    /**
-     * @throws InvalidDriverException|InvalidObfuscatedIdException
-     */
-    private function decodeId(string $obfuscatedId): int
-    {
-        if ($this->classSpecificIdObfuscator) {
-            return $this->getIdObfuscator()->decodeClassSpecific($obfuscatedId, static::class);
-        }
-
-        return $this->getIdObfuscator()->decode($obfuscatedId);
     }
 }
