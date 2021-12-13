@@ -7,7 +7,7 @@ it("resolves from the manager", function() {
     expect(IdObfuscator::driver('hashids'))->toBeInstanceOf(HashidsIdObfuscator::class);
 });
 
-it("obfuscates ids", function() {
+it("encodes and decodes ids", function() {
     $obfuscator = IdObfuscator::driver('hashids');
 
     $id = 123;

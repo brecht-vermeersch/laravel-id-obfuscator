@@ -7,7 +7,7 @@ it("resolves from the manager", function() {
     expect(IdObfuscator::driver('null'))->toBeInstanceOf(NullIdObfuscator::class);
 });
 
-it("obfuscates ids", function() {
+it("encodes and decodes ids", function() {
     $obfuscator = IdObfuscator::driver('null');
 
     $id = 123;
