@@ -4,6 +4,7 @@ namespace Lurza\IdObfuscator;
 
 use Illuminate\Support\Manager;
 use Lurza\IdObfuscator\Drivers\HashidIdObfuscator;
+use Lurza\IdObfuscator\Drivers\NullIdObfuscator;
 use Lurza\IdObfuscator\Exceptions\InvalidConfigurationException;
 use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 
@@ -23,6 +24,11 @@ class IdObfuscatorManager extends Manager implements IdObfuscatorContract
     public function createHashidsDriver(): IdObfuscatorContract
     {
         return new HashidIdObfuscator($this->config);
+    }
+
+    public function createNullDriver(): IdObfuscatorContract
+    {
+        return new NullIdObfuscator();
     }
 
     public function encode(int $id): string
