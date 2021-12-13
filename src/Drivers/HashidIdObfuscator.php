@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Lurza\IdObfuscator\Drivers;
 
@@ -16,50 +16,24 @@ class HashidIdObfuscator extends BaseIdObfucator
         private HashidsConfig $config
     ) {}
 
-    public function encode(int $id): string
-    {
-        return $this->encodeWith($id, $this->getDefaultObfuscator());
-    }
-
-    /**
-     * @throws InvalidIdException
-     */
-    private function encodeWith(int $id, Hashids $hashids): string
+    public function encode(int $id, string $class = null): string
     {
         if ($id < 0) {
             throw new InvalidIdException("Ids can only be positive integers!");
         }
 
-        return $hashids->encode($id);
+        return $this->getClassOrDefaultObfuscator($class)->encode($id);
     }
 
-    public function decode(string $obfuscatedId): int
+    public function decode(string $obfuscatedId, string $class = null): int
     {
-        return $this->decodeWith($obfuscatedId, $this->getDefaultObfuscator());
-    }
+        $ids = $this->getClassOrDefaultObfuscator($class)->decode($obfuscatedId);
 
-    /**
-     * @throws InvalidObfuscatedIdException
-     */
-    private function decodeWith(string $obfuscatedId, Hashids $hashids): int
-    {
-        $ids = $hashids->decode($obfuscatedId);
-
-        if (count($ids) < 1) {
+        if (count($ids) < 1 || $ids[0] === "") {
             throw new InvalidObfuscatedIdException();
         }
 
         return $ids[0];
-    }
-
-    public function encodeClassSpecific(int $id, string $class): string
-    {
-        return $this->encodeWith($id, $this->getClassSpecificObfuscator($class));
-    }
-
-    public function decodeClassSpecific(string $obfuscatedId, string $class): int
-    {
-        return $this->decodeWith($obfuscatedId, $this->getClassSpecificObfuscator($class));
     }
 
     protected function createDefaultObfuscator(): Hashids
@@ -84,4 +58,5 @@ class HashidIdObfuscator extends BaseIdObfucator
     {
         return hash('sha256', $this->config->salt . $class);
     }
+
 }

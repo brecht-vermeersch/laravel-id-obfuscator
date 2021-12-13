@@ -34,23 +34,13 @@ class IdObfuscatorManager extends Manager implements IdObfuscatorContract
         return new NullIdObfuscator();
     }
 
-    public function encode(int $id): string
+    public function encode(int $id, string $class = null): string
     {
-        return $this->driver()->encode($id);
+        return $this->driver()->encode($id, $class);
     }
 
-    public function decode(string $obfuscatedId): int
+    public function decode(string $obfuscatedId, string $class = null): int
     {
-        return $this->driver()->decode($obfuscatedId);
-    }
-
-    public function encodeClassSpecific(int $id, string $class): string
-    {
-        return $this->driver()->encodeClassSpecific($id, $class);
-    }
-
-    public function decodeClassSpecific(string $obfuscatedId, string $class): int
-    {
-        return $this->driver()->decodeClassSpecific($obfuscatedId, $class);
+        return $this->driver()->decode($obfuscatedId, $class);
     }
 }

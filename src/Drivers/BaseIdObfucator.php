@@ -28,11 +28,22 @@ abstract class BaseIdObfucator implements ObfuscatorContract
      * @param class-string $class
      * @return T
      */
-    protected function getClassSpecificObfuscator(string $class): mixed
+    protected function getClassObfuscator(string $class): mixed
     {
         return array_key_exists($class, $this->cachedClassSpecifics)
             ? $this->cachedClassSpecifics[$class]
             : $this->cachedClassSpecifics[$class] = $this->createClassSpecificObfuscator($class);
+    }
+
+    /**
+     * @param class-string|null $class
+     * @return T
+     */
+    protected function getClassOrDefaultObfuscator(?string $class): mixed
+    {
+        return $class === null
+            ? $this->getDefaultObfuscator()
+            : $this->getClassObfuscator($class);
     }
 
     /**
