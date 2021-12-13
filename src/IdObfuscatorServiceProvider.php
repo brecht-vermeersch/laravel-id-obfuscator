@@ -6,14 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class IdObfuscatorServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton('idObfuscator', function ($app) {
             return new IdObfuscatorManager($app);
         });
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__.'/../config/idObfuscator.php' => config_path('idObfuscator.php'),
