@@ -1,13 +1,13 @@
 <?php
 
-use Lurza\IdObfuscator\Facades\IdObfuscator;
 use Lurza\IdObfuscator\Drivers\NullIdObfuscator;
+use Lurza\IdObfuscator\Facades\IdObfuscator;
 
-it("resolves from the manager", function() {
+it('resolves from the manager', function () {
     expect(IdObfuscator::driver('null'))->toBeInstanceOf(NullIdObfuscator::class);
 });
 
-it("encodes and decodes ids", function() {
+it('encodes and decodes ids', function () {
     $obfuscator = IdObfuscator::driver('null');
 
     $id = 123;

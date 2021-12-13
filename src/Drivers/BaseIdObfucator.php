@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Lurza\IdObfuscator\Drivers;
 
@@ -9,7 +11,7 @@ use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as ObfuscatorContract;
  */
 abstract class BaseIdObfucator implements ObfuscatorContract
 {
-    /** @var ?T $cachedDefault */
+    /** @var ?T */
     private mixed $cachedDefault = null;
     /** @var array<class-string, T> */
     private array $cachedSalted = [];
@@ -26,6 +28,7 @@ abstract class BaseIdObfucator implements ObfuscatorContract
 
     /**
      * @param class-string $salt
+     *
      * @return T
      */
     protected function getSaltedObfuscator(string $salt): mixed
@@ -37,6 +40,7 @@ abstract class BaseIdObfucator implements ObfuscatorContract
 
     /**
      * @param class-string|null $salt
+     *
      * @return T
      */
     protected function getSaltedOrDefaultObfuscator(?string $salt): mixed
@@ -53,6 +57,7 @@ abstract class BaseIdObfucator implements ObfuscatorContract
 
     /**
      * @param class-string $salt
+     *
      * @return T
      */
     abstract protected function createSaltedObfuscator(string $salt): mixed;

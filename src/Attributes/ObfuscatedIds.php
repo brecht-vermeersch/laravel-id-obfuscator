@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Lurza\IdObfuscator\Attributes;
 
@@ -12,5 +14,6 @@ class ObfuscatedIds
      */
     public function __construct(
         public array $keys
-    ){}
+    ) {
+    }
 }

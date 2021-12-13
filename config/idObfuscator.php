@@ -20,15 +20,15 @@ return [
     'drivers' => [
 
         'hashids' => [
-            'salt' => env('HASHIDS_SALT'),
+            'salt'              => env('HASHIDS_SALT'),
             'minimumHashLength' => env('HASHIDS_MINIMUM_HASH_LENGTH'),
-            'alphabet' => env('HASHIDS_ALPHABET')
+            'alphabet'          => env('HASHIDS_ALPHABET'),
         ],
 
         'optimus' => [
-            'prime' => env('OPTIMUS_PRIME'),
+            'prime'   => env('OPTIMUS_PRIME'),
             'inverse' => env('OPTIMUS_INVERSE'),
-            'random' => env('OPTIMUS_RANDOM')
+            'random'  => env('OPTIMUS_RANDOM'),
         ],
 
         'null' => [],
