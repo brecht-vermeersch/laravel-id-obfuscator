@@ -3,15 +3,17 @@
 namespace Lurza\IdObfuscator;
 
 use Illuminate\Support\Manager;
-use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
-use Lurza\IdObfuscator\Drivers\Configs\HashidsConfig;
-use Lurza\IdObfuscator\Drivers\HashidIdObfuscator;
 use Lurza\IdObfuscator\Drivers\NullIdObfuscator;
+use Lurza\IdObfuscator\Drivers\HashidIdObfuscator;
+use Lurza\IdObfuscator\Drivers\Configs\HashidsConfig;
+use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 
 /**
  * @method IdObfuscatorContract driver(?string $driver = null)
+ * @method string encode(int $id, string $class = null)
+ * @method int decode(string $obfuscatedId, string $class = null):
  */
-class IdObfuscatorManager extends Manager implements IdObfuscatorContract
+class IdObfuscatorManager extends Manager
 {
     public function getDefaultDriver(): string
     {
@@ -26,15 +28,5 @@ class IdObfuscatorManager extends Manager implements IdObfuscatorContract
     public function createNullDriver(): IdObfuscatorContract
     {
         return new NullIdObfuscator();
-    }
-
-    public function encode(int $id, string $class = null): string
-    {
-        return $this->driver()->encode($id, $class);
-    }
-
-    public function decode(string $obfuscatedId, string $class = null): int
-    {
-        return $this->driver()->decode($obfuscatedId, $class);
     }
 }
