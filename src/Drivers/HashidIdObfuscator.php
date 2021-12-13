@@ -3,7 +3,7 @@
 namespace Lurza\IdObfuscator\Drivers;
 
 use Hashids\Hashids;
-use Lurza\IdObfuscator\Configs\HashidsConfig;
+use Lurza\IdObfuscator\Drivers\Configs\HashidsConfig;
 use Lurza\IdObfuscator\Exceptions\InvalidIdException;
 use Lurza\IdObfuscator\Exceptions\InvalidObfuscatedIdException;
 

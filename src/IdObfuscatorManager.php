@@ -3,10 +3,10 @@
 namespace Lurza\IdObfuscator;
 
 use Illuminate\Support\Manager;
-use Lurza\IdObfuscator\Configs\HashidsConfig;
+use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
+use Lurza\IdObfuscator\Drivers\Configs\HashidsConfig;
 use Lurza\IdObfuscator\Drivers\HashidIdObfuscator;
 use Lurza\IdObfuscator\Drivers\NullIdObfuscator;
-use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 
 /**
  * @method IdObfuscatorContract driver(?string $driver = null)

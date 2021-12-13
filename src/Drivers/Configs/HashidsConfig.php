@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Lurza\IdObfuscator\Configs;
+namespace Lurza\IdObfuscator\Drivers\Configs;
 
 use Lurza\IdObfuscator\Exceptions\InvalidConfigurationException;
+use function config;
 
 class HashidsConfig
 {
