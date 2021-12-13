@@ -10,17 +10,17 @@ interface IdObfuscator
 
     /**
      * @param int $id
-     * @param class-string|null $class
+     * @param class-string|null $salt
      * @return string
      * @throws InvalidIdException
      */
-    public function encode(int $id, string $class = null): string;
+    public function encode(int $id, string $salt = null): string;
 
     /**
      * @param string $obfuscatedId
-     * @param class-string|null $class
+     * @param class-string|null $salt
      * @return int
      * @throws InvalidObfuscatedIdException
      */
-    public function decode(string $obfuscatedId, string $class = null): int;
+    public function decode(string $obfuscatedId, string $salt = null): int;
 }

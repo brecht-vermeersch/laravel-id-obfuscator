@@ -4,7 +4,7 @@ namespace Lurza\IdObfuscator;
 
 use Illuminate\Support\Manager;
 use Lurza\IdObfuscator\Drivers\NullIdObfuscator;
-use Lurza\IdObfuscator\Drivers\HashidIdObfuscator;
+use Lurza\IdObfuscator\Drivers\HashidsIdObfuscator;
 use Lurza\IdObfuscator\Drivers\Configs\HashidsConfig;
 use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 
@@ -20,7 +20,7 @@ class IdObfuscatorManager extends Manager
 
     public function createHashidsDriver(): IdObfuscatorContract
     {
-        return new HashidIdObfuscator(app(HashidsConfig::class));
+        return new HashidsIdObfuscator(app(HashidsConfig::class));
     }
 
     public function createNullDriver(): IdObfuscatorContract

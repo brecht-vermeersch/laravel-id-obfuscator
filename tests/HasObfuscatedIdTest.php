@@ -3,22 +3,22 @@
 use Illuminate\Database\Eloquent\Model;
 use Lurza\IdObfuscator\Traits\HasObfuscatedId;
 
-it("can by resolved by confuscated id", function() {
+it("resolves from route", function() {
     $dummy = Dummy::create();
-    $classBasedDummy = ClassBasedDummy::find($dummy->id);
+    $saltDummy = SaltDummy::find($dummy->id);
 
-    $this->assertEquals($dummy->id, $classBasedDummy->id);
+    expect($dummy->id)->toBe($saltDummy->id);
 
     $dummyRouteKey = $dummy->getRouteKey();
-    $classBasedDummyRouteKey = $classBasedDummy->getRouteKey();
+    $saltDummyRouteKey = $saltDummy->getRouteKey();
 
-    $this->assertNotEquals($dummyRouteKey, $classBasedDummy);
+    expect($dummyRouteKey)->not->toBe($saltDummyRouteKey);
 
     $resolvedDummy = (new Dummy)->resolveRouteBinding($dummyRouteKey);
-    $resolvedClassBasedDummy = (new ClassBasedDummy)->resolveRouteBinding($classBasedDummyRouteKey);
+    $resolvedSaltDummy = (new SaltDummy)->resolveRouteBinding($saltDummyRouteKey);
 
-    $this->assertEquals($dummy->id, $resolvedDummy->id);
-    $this->assertEquals($dummy->id, $resolvedClassBasedDummy->id);
+    expect($dummy->id)->toBe($resolvedDummy->id);
+    expect($dummy->id)->toBe($resolvedSaltDummy->id);
 });
 
 class Dummy extends Model
@@ -28,12 +28,12 @@ class Dummy extends Model
     public $idObfuscator = 'hashids';
 }
 
-class ClassBasedDummy extends Model
+class SaltDummy extends Model
 {
     use HasObfuscatedId;
 
     protected $table = "dummies";
 
     public $idObfuscator = 'hashids';
-    public $classBasedIdObfuscation = true;
+    public $idObfuscatorSalt = 'salty';
 }
