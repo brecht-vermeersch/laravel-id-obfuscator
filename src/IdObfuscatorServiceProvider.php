@@ -8,7 +8,7 @@ class IdObfuscatorServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton('idObfuscator', function ($app) {
+        $this->app->singleton(IdObfuscatorManager::class, function ($app) {
             return new IdObfuscatorManager($app);
         });
     }

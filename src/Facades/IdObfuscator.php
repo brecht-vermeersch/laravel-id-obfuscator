@@ -16,6 +16,6 @@ class IdObfuscator extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'idObfuscator';
+        return IdObfuscatorManager::class;
     }
 }
