@@ -12,7 +12,7 @@ abstract class BaseIdObfucator implements ObfuscatorContract
     /** @var ?T $cachedDefault */
     private mixed $cachedDefault = null;
     /** @var array<class-string, T> */
-    private array $cachedClassSpecifics = [];
+    private array $cachedSalt = [];
 
     /**
      * @return T
@@ -30,9 +30,9 @@ abstract class BaseIdObfucator implements ObfuscatorContract
      */
     protected function getClassObfuscator(string $class): mixed
     {
-        return array_key_exists($class, $this->cachedClassSpecifics)
-            ? $this->cachedClassSpecifics[$class]
-            : $this->cachedClassSpecifics[$class] = $this->createClassSpecificObfuscator($class);
+        return array_key_exists($class, $this->cachedSalt)
+            ? $this->cachedSalt[$class]
+            : $this->cachedSalt[$class] = $this->createClassSpecificObfuscator($class);
     }
 
     /**
