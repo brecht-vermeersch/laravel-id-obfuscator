@@ -18,9 +18,6 @@ class IdObfuscatorManager extends Manager implements IdObfuscatorContract
         return "hashids";
     }
 
-    /**
-     * @return IdObfuscatorContract
-     */
     public function createHashidsDriver(): IdObfuscatorContract
     {
         return new HashidIdObfuscator(app(HashidsConfig::class));
