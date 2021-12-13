@@ -12,4 +12,11 @@ class IdObfuscatorServiceProvider extends ServiceProvider
             return new IdObfuscatorManager($app);
         });
     }
+
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__.'/../config/idObfuscator.php' => config_path('idObfuscator.php'),
+        ]);
+    }
 }
