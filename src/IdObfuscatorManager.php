@@ -10,7 +10,7 @@ use Lurza\IdObfuscator\Exceptions\InvalidConfigurationException;
 use Lurza\IdObfuscator\Contracts\Drivers\IdObfuscator as IdObfuscatorContract;
 
 /**
- * @method IdObfuscatorContract driver($driver = null)()
+ * @method IdObfuscatorContract driver(?string $driver = null)
  */
 class IdObfuscatorManager extends Manager implements IdObfuscatorContract
 {
@@ -46,21 +46,11 @@ class IdObfuscatorManager extends Manager implements IdObfuscatorContract
 
     public function encodeClassSpecific(int $id, string $class): string
     {
-        return $this->getClassDriver($class)->encodeClassSpecific($id, $class);
+        return $this->driver()->encodeClassSpecific($id, $class);
     }
 
     public function decodeClassSpecific(string $obfuscatedId, string $class): int
     {
-        return $this->getClassDriver($class)->decodeClassSpecific($obfuscatedId, $class);
-    }
-
-    /**
-     * @param class-string $class
-     * @return IdObfuscatorContract
-     */
-    private function getClassDriver(string $class): IdObfuscatorContract
-    {
-        // TODO
-        return $this->driver();
+        return $this->driver()->decodeClassSpecific($obfuscatedId, $class);
     }
 }
